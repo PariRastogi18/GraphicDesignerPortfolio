@@ -60,32 +60,32 @@ box.addEventListener("click", (e) => {
 });
 box.addEventListener("close", () => (stage.innerHTML = ""));
 
-// Contact form (Web3Forms)
+// Contact form (EmailJS)
+const SERVICE_ID = "service_1jcst55";
+const TEMPLATE_ID = "template_ym8jsom";
+const PUBLIC_KEY = "9yhW39eQtVzV9Iy3b";
+
+emailjs.init({ publicKey: PUBLIC_KEY });
+
 const form = document.getElementById("contactForm");
 const statusEl = document.getElementById("formStatus");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  if (form.elements.website.value) return; // spam bots honeypot bharte hain
+
   const btn = form.querySelector("button");
   btn.disabled = true;
   statusEl.className = "status";
   statusEl.textContent = "Sending...";
 
   try {
-    const res = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(Object.fromEntries(new FormData(form))),
-    });
-    const data = await res.json();
-    if (!data.success) throw new Error(data.message);
+    await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form);
     statusEl.classList.add("ok");
     statusEl.textContent = "Thanks! Your message has been sent.";
     form.reset();
-  } catch {
+  } catch (err) {
+    console.error(err);
     statusEl.classList.add("err");
     statusEl.textContent = "Something went wrong. Please email me directly.";
   } finally {

@@ -220,12 +220,8 @@
                 <p class="lead" style="margin-inline:auto">Available for brand identity, social media design and motion
                     ads. Send a message and I'll reply by email.</p>
 
-                <form class="form" id="contactForm" action="https://formsubmit.co/sakshi6421@gmail.com" method="POST">
-                    <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
-                    <input type="hidden" name="subject" value="New message from your portfolio">
-                    <input type="hidden" name="from_name" value="Portfolio Contact Form">
-                    <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
-
+                <form class="form" id="contactForm">
+                    <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
                     <div class="row">
                         <label>Name
                             <input type="text" name="name" required autocomplete="name">
@@ -260,7 +256,7 @@
         <button type="button" id="close">Close</button>
         <div id="stage"></div>
     </dialog>
-
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="script.js"></script>
 
 </body>
