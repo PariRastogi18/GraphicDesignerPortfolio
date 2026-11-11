@@ -59,3 +59,36 @@ box.addEventListener("click", (e) => {
   if (e.target === box) shut();
 });
 box.addEventListener("close", () => (stage.innerHTML = ""));
+
+// Contact form (Web3Forms)
+const form = document.getElementById("contactForm");
+const statusEl = document.getElementById("formStatus");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = form.querySelector("button");
+  btn.disabled = true;
+  statusEl.className = "status";
+  statusEl.textContent = "Sending...";
+
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(Object.fromEntries(new FormData(form))),
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    statusEl.classList.add("ok");
+    statusEl.textContent = "Thanks! Your message has been sent.";
+    form.reset();
+  } catch {
+    statusEl.classList.add("err");
+    statusEl.textContent = "Something went wrong. Please email me directly.";
+  } finally {
+    btn.disabled = false;
+  }
+});
